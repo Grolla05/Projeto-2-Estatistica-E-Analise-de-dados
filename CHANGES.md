@@ -71,3 +71,11 @@
 - Executado `python -m unittest discover -s tests -p test_notebook_structure.py -v`: **12 testes passaram**.
 - Todas as células de código foram executadas em sequência com as planilhas atuais; a execução terminou sem exceções e confirmou 300/100 linhas e os resultados acima.
 - Nenhum commit, push ou pull request foi feito. Aguardando validação e comando do usuário, conforme o fluxo do projeto.
+
+
+## 2026-11-04 ? Coment?rios explicativos no backend do notebook
+
+- Acrescentados coment?rios em portugu?s ?s etapas de leitura dos dados, aos c?lculos estat?sticos e ?s fun??es auxiliares de distribui??o normal, explicando o que cada comando faz e por que ? usado.
+- Mantidas sem explica??o linha a linha as c?lulas de constru??o de gr?ficos e tabela, conforme solicitado.
+- Adicionado `tests/test_backend_comments.py` para verificar coment?rios nas c?lulas de backend selecionadas.
+- Valida??o: teste de coment?rios, sintaxe das c?lulas e execu??o integral do notebook conclu?dos com sucesso. A su?te estrutural completa ainda aponta verifica??es preexistentes de r?tulos/justificativas textuais que n?o correspondem ao conte?do atual.
