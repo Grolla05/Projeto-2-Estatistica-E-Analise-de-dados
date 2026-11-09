@@ -4,3 +4,8 @@ seaborn
 openpyxl
 jupyter
 ipykernel
+nbformat
+nbclient
+numpy
+scipy
+statsmodels
