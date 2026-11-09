@@ -1,81 +1,79 @@
 # CHANGES
 
-## 2026-11-04 — Corrigir execução do Notebook 1 e avaliar contra a rubrica
+## refactor(sprint1): separar notebooks por planilha e usar os comandos do PDF de Distribuição Normal
 
-- **Erro corrigido:** `ImportError: Import openpyxl failed` em `pd.read_excel` (célula 3). O `.venv` não tinha `openpyxl`; instalado `requirements.txt` no `.venv` (inclui `openpyxl 3.1.5`, `nbclient`, `nbconvert`).
-- Histograma da Planilha 1 (seção 4.1 "com a curva normal") passou a sobrepor a curva normal teórica N(média, DP), calculada com `math.exp` e escalada pela largura da classe, com legenda.
-- Contagens de ±1/±2/±3 desvios-padrão convertidas com `int()` e impressas com rótulo (antes exibiam `np.int64(...)`); as três porcentagens foram unificadas numa célula com a referência da regra empírica (68 / 95 / 99,7%). Removidas as duas células avulsas de porcentagem.
-- `limite_objetivo_segundos = 3.0` movido da Q7.4 para a célula da Q8, onde é usado.
-- Q8: tabela comparativa ganhou a linha de desvio-padrão; aviso de causalidade deixou de ser impresso em duplicidade.
-- Notebook reexecutado com `jupyter nbconvert --execute --inplace`; saídas e gráficos atuais gravados no `.ipynb` (a saída de erro antiga foi substituída).
-- Testes novos em `tests/test_notebook_structure.py`: dependência `openpyxl`, curva normal no histograma, contagens/porcentagens impressas, local do limite do objetivo, aviso de causalidade único e execução completa do notebook via `nbclient` sem erros. Resultado: **21 testes OK**.
-- Avaliação critério a critério contra a rubrica (relatório não versionado): **6,40 / 10 (64 / 100)** na rubrica completa; **92 / 100** nos critérios que dependem só de código. Pendências principais: Q1 e Q7.1 sem texto, intervalo [2, 3] s sem justificativa, PDF final não gerado.
-- Nenhum commit, push ou pull request foi feito; aguardando validação do usuário.
+### Contexto
 
-## 2026-11-04 — Corrigir ambiente de execução e registrar interpretações
+O notebook `SPRINT1/Notebook_1_Analise_Antes_Intervencao.ipynb` misturava as duas planilhas (Questões 1 a 8) e deixava a Questão 1, a Questão 7.1 e os valores de referência como "provisórios / preencher manualmente". Além disso, os cálculos da distribuição normal eram feitos à mão com `math`, diferente dos comandos do material `SPRINT1/refs/Python - Distribuição Normal-1-1.pdf`. A análise foi dividida por planilha, todos os textos passaram a seguir a situação-problema do grupo e o código passou a usar exatamente os comandos do PDF.
 
-- Diagnóstico do erro de instalação: o `.venv` anterior usava Python 3.14 do MSYS2 com plataforma `mingw_x86_64_ucrt_gnu`. `psutil` e `pyzmq` tentavam compilar wheels nativas nesse alvo e a configuração CMake do `pyzmq` falhava. A captura não mostra a linha CMake mais específica, então a causa identificada é a incompatibilidade do interpretador/ABI escolhido para esse fluxo de instalação.
-- O `.venv` antigo continha somente `pip`; foi substituído por um ambiente CPython 3.12 do Windows (`win-amd64`). Foi necessário criar o ambiente sem o `ensurepip` embutido, devido à restrição de gravação no diretório temporário do sandbox, e reutilizar os pacotes disponíveis no Python 3.12 local (`--system-site-packages`). O executável `pip.exe` local foi então instalado a partir do wheel embutido no próprio CPython. A checagem `pip install --no-index -r requirements.txt` confirmou todas as dependências, incluindo `psutil` e `pyzmq`, sem compilação.
-- Atualizado `README.md` com a causa do erro e instruções para selecionar o CPython 3.12, recriar o ambiente e apontar o PyCharm para `.venv\\Scripts\\python.exe`.
-- Substituídos os sete placeholders de interpretação no notebook por conclusões curtas calculadas a partir das duas planilhas. A Questão 4 registra a proximidade com a regra empírica, a simetria aproximada dos quartis e a leitura conjunta do Q-Q; as Questões 5 e 6 contextualizam a probabilidade e os percentis; a 7.4 registra a pergunta e a contagem; e a 8 compara critérios e explicita que os resultados não provam causalidade.
-- Resultados usados nas interpretações: Planilha 1 (300 observações), média 2,5112 s, mediana 2,51 s, desvio-padrão amostral 0,4003 s; proporções em ±1/±2/±3 desvios-padrão: 68%, 96%, 100%; metades interquartis: 0,28 s e 0,2625 s; probabilidade normal estimada em [2, 3] s: 78,8127%; percentis: 2,1743 s e 2,7212 s. Planilha 2 (100 observações), média 5,0979 s, mediana 5,125 s, desvio-padrão 0,8102 s; contagem em [2, 3] s: 0; até 3 s: 89% antes e 0% depois; em [2, 3] s: 79,33% antes e 0% depois; diferença de médias depois menos antes: +2,5867 s.
-- A execução sequencial em memória de todas as células de código terminou sem exceções e forneceu os resultados acima. A tentativa de iniciar um kernel Jupyter pelo `nbclient` não completou o handshake neste ambiente de execução, por isso as saídas não foram incorporadas ao `.ipynb`.
-- Incluídos testes para verificar as interpretações baseadas nos resultados e a orientação de ambiente no README. Resultado final: `python -m unittest discover -s tests -p test_notebook_structure.py -v` — **15 testes passaram**.
-- Nenhum commit, push ou pull request foi feito; aguardando validação do usuário.
+Situação-problema:
 
-## 2026-11-04 — Campos breves de interpretação no Notebook 1
+> A empresa de e-commerce adicionou uma etapa extra de validação antifraude nos pagamentos via Pix. Isso deixa o processamento mais lento, e o grupo investiga se o tempo ainda é aceitável.
 
-- Adicionadas células Markdown imediatamente após os resultados que, conforme a rubrica, exigem análise ou contextualização.
-- Na Questão 4, os campos orientam uma conclusão breve sobre: histograma e regra empírica; simetria pelas distâncias entre quartis; e diagrama Q-Q com conclusão conjunta de normalidade.
-- Na Questão 5, o campo solicita interpretar a probabilidade para o intervalo selecionado.
-- Na Questão 6, o campo solicita contextualizar, em segundos, os limites dos 20% menores e dos 30% maiores.
-- Na Questão 7.4, o campo pede a pergunta associada ao intervalo e uma leitura breve da contagem em relação ao objetivo.
-- Na Questão 8, o campo pede uma conclusão comparativa curta com base nos dois critérios e na direção observada, mantendo explícito o caráter descritivo.
-- Na versão inicial, os campos eram placeholders editáveis; foram preenchidos com conclusões baseadas nos dados na atualização registrada no topo deste arquivo. O relatório continua reservado para o desenvolvimento completo. Não foram adicionados campos após gráficos e estatísticas descritivas que a rubrica não solicita interpretar.
-- Adicionado teste estrutural em `tests/test_notebook_structure.py` para verificar a presença de um campo Markdown imediatamente após cada resultado interpretativo relevante.
-- Validação: `python -m unittest discover -s tests -p test_notebook_structure.py -v` — **13 testes passaram**.
-- Nenhum commit, push ou pull request foi feito; aguardando validação do usuário.
+Valores de referência adotados (decisão do grupo, com base no comportamento da Planilha 1):
 
-## 2026-11-04 — Completar análise da Sprint 1 e corrigir referências das planilhas
+- **Faixa ideal:** 2 a 3 segundos (onde se concentra a maior parte das transações antes da intervenção; percepção de pagamento instantâneo).
+- **Limite tolerável:** até 6 segundos (dobro do teto da faixa ideal).
 
-### Configuração do repositório e ambiente
+### Comandos iguais ao PDF "Python - Distribuição Normal" (nos dois notebooks)
 
-- Criado `.gitignore` para caches Python, ambientes virtuais, checkpoints do Jupyter, caches de ferramentas, arquivos locais de IDE e arquivos comuns do sistema operacional.
-- Criado `.editorconfig` para padronizar a edição dos arquivos do projeto.
-- Criado `requirements.txt` com pandas, matplotlib, seaborn, openpyxl, Jupyter e ipykernel. `openpyxl` é o mecanismo usado pelo pandas para abrir os arquivos Excel.
-- O repositório já estava inicializado e o remoto `origin` já estava configurado; nenhuma identidade, remoto ou configuração local de Git foi alterada.
+| Etapa do PDF | Comando usado |
+|---|---|
+| 1. Importar as bibliotecas | `import pandas as pd`, `import numpy as np`, `import math`, `import seaborn as sns`, `import matplotlib.pyplot as plt`, `import statsmodels.api as sm`, `from scipy.stats import norm`, `import pylab` |
+| 2. Variáveis | `arquivo = "..."`, `coluna = "Tempo_processamento_seg"` |
+| 3. Armazenamento | `df=pd.read_excel(arquivo)` e `df` |
+| 4.1 Histograma | `sns.histplot(data=df[coluna],kde=True)` e `plt.show()` |
+| 4.2 Boxplot | `sns.boxplot(data=df[coluna])` e `plt.show()` |
+| 5. Média, mediana e desvio-padrão (padrão do Projeto 1) | `media = round(df[coluna].mean(), 2)`, `mediana = round(df[coluna].median(), 2)`, `dpad = round(df[coluna].std(), 2)` |
+| 6.1 Limites | `limite_inf1dp=round(media-dpad,2)` … `limite_sup3dp=round(media+3*dpad,2)` |
+| 6.1 Quantidades | `quantidade_1dp=sum(i>=limite_inf1dp and i<= limite_sup1dp for i in df[coluna].sort_values())` (e 2dp, 3dp) |
+| 6.1 Porcentagens | `porcentagem1 = round((quantidade_1dp/len(df[coluna]))*100,2)` (e 2, 3) |
+| 6.2 Quartis (padrão do Projeto 1) | `Q1 = df[coluna].quantile(q=0.25)`, `Q2 = ...(q=0.50)`, `Q3 = ...(q=0.75)` |
+| 6.3 Gráfico Q-Q | `sm.qqplot(df[coluna], line = 'r')` e `pylab.show()` |
+| 7. Probabilidade (Q5) | `norm.cdf(3,loc=media,scale=dpad).round(4)-norm.cdf(2,loc=media,scale=dpad).round(4)` |
+| Quantis (Q6) | `norm.ppf(0.20,loc=media,scale=dpad).round(2)` e `norm.ppf(0.70,loc=media,scale=dpad).round(2)` |
 
-### Notebook 1 e referências aos dados
+- Removidos os cálculos feitos à mão: as funções `cdf_normal_padrao` (com `math.erf`) e `quantil_normal_padrao` (bissecção), o Q-Q montado manualmente e a curva normal desenhada com `math.exp` sobre o histograma.
+- Mantidos, por exigência da rubrica, `plt.title`, `plt.xlabel` e `plt.ylabel` entre o comando do gráfico e o `plt.show()`, identificando variável, unidade e título.
+- Como no PDF, média e desvio-padrão entram arredondados em 2 casas em `loc` e `scale`. Por isso a probabilidade da Q5 passou de 78,81% para **78,85%**; os quantis da Q6 continuam 2,17 s e 2,72 s.
+- A regra empírica agora aparece como 68%-95%-99% no código e no texto, como nas orientações da Sprint (antes o print dizia 99,7% e o texto 99%).
 
-- Reestruturado `SPRINT1/Notebook_1_Analise_Antes_Intervencao.ipynb` para manter a sequência didática do tutorial `SPRINT1/refs/Python - Distribuição Normal-1-1.pdf`, com uma célula separada para imports, definição de variáveis e leitura dos dados.
-- Corrigidos os caminhos e o mapeamento das planilhas renomeadas:
-  - `../Refs/Planilha 1 - TEMPO PAGAMENTO PIX.xlsx` → dados de antes, 300 observações.
-  - `../Refs/Planilha 2 -TEMPO PAGAMENTO PIX-2.xlsx` → dados de depois, 100 observações.
-- O notebook valida a quantidade esperada de linhas e a presença da coluna `Tempo_processamento_seg`; eliminada a antiga mensagem de divergência de tamanho.
-- Desenvolvidas as seções correspondentes às Questões 1 a 8 da rubrica: espaço de contextualização manual; gráficos e estatísticas descritivas antes; regra empírica, quartis e Q-Q; probabilidade normal e percentis; espaços para registrar contexto/intervenção manualmente; gráficos e estatísticas depois; contagem no intervalo; e comparação dos critérios entre as amostras.
-- Gráficos usam seaborn e matplotlib; o cálculo da CDF/quantis da normal usa `math`, sem incluir bibliotecas novas no código do notebook. O quadro comparativo é impresso com pandas.
-- Intervalo de 2 a 3 segundos e objetivo de até 3 segundos estão identificados no notebook como valores provisórios, que precisam de justificativa do grupo no relatório manuscrito. Nenhum SLA ou critério oficial foi fornecido nos arquivos.
-- A comparação descreve os dados observados e explicita que não demonstra causalidade. A redação informa a direção da diferença de médias.
+### Notebook 1 — `SPRINT1/Notebook_1_Analise_Antes_Intervencao.ipynb` (reescrito)
 
-### Resultado da execução com as planilhas atuais
+- Contém **somente** a Planilha 1 (300 observações), na variável `df`, e as Questões 1 a 6.
+- Removidos: a Planilha 2 e todas as seções das Questões 7.1 a 8.
+- **Questão 1:** texto completo, com os cinco itens da rubrica rotulados (contexto, problema, possível causa, importância da variável e valores de referência com justificativa).
+- **Questão 2:** histograma e boxplot com título, variável e unidade (segundos).
+- **Questão 3:** média 2,51 s, mediana 2,51 s e desvio-padrão 0,40 s.
+- **Questão 4:** itens 6.1, 6.2 e 6.3 do PDF, cada um com uma conclusão, mais uma "Conclusão geral" que justifica o uso da distribuição normal.
+- **Questão 5:** P(2 ≤ x ≤ 3) = 78,85%, com justificativa do intervalo (faixa ideal) e contextualização.
+- **Questão 6:** 2,17 s (máximo dos 20% menores) e 2,72 s (mínimo dos 30% maiores), contextualizados.
+- Célula final "Síntese da Planilha 1", que liga os resultados ao Notebook 2.
 
-- Execução sequencial em memória das células de código concluída sem exceções.
-- Antes: 300 registros, média de 2,5112 s; 89% atendem ao critério provisório de até 3 s.
-- Depois: 100 registros, média de 5,0979 s; 0% atendem ao critério provisório de até 3 s; 0 registros estão entre 2 e 3 s.
-- A diferença observada entre as médias é de aproximadamente +2,5867 s (depois menos antes). Isso deve ser discutido no relatório sem atribuir causa à intervenção sem evidência adicional.
-- As saídas de execução não foram gravadas dentro do `.ipynb`; as células executadas continuam sem outputs salvos. A execução de validação foi feita em memória.
+### Notebook 2 — `SPRINT1/Notebook_2_Analise_depois_da_Intervencao.ipynb` (novo)
 
-### Testes e validação
+- Mesmos imports e o mesmo padrão `arquivo` / `coluna` / `df=pd.read_excel(arquivo)`, agora com a Planilha 2 (100 observações).
+- **Questão 7.1:** Situação (reforço contra fraudes com risco de lentidão), Ação (etapa extra de validação antifraude) e Objetivo (manter o tempo em até 6 s), com pergunta de decisão.
+- **Questão 7.2:** histograma (`sns.histplot(data=df[coluna],kde=True)`) e boxplot com título e unidade, mais uma interpretação.
+- **Questão 7.3:** média 5,10 s, mediana 5,12 s e desvio-padrão 0,81 s, mais uma interpretação comparando com a Planilha 1.
+- **Questão 7.4:** intervalo de 0 a 6 s; a contagem usa o mesmo padrão `sum(i>=... and i<= ...)` do PDF: 85 de 100 (e 0 de 100 na faixa ideal).
+- **Questão 8:** pergunta e dois critérios:
+  - Critério 1: até 3 s (ideal): 89% → 0%.
+  - Critério 2: até 6 s (tolerável): 100% → 85%.
+  - Tabela comparativa, boxplot lado a lado com as linhas de 3 s e 6 s e diferença entre as médias (+2,59 s), com aviso único de que a comparação não comprova causalidade.
+  - A Planilha 1 é lida em `df_antes` apenas nesta seção.
 
-- Atualizado `tests/test_notebook_structure.py`, incluindo verificações de formato e sintaxe do notebook, ordem/separação das células, imports permitidos, referências corretas, tamanhos reais das amostras, cobertura das questões, limiares provisórios, direção da comparação e cálculo dos quantis.
-- Executado `python -m unittest discover -s tests -p test_notebook_structure.py -v`: **12 testes passaram**.
-- Todas as células de código foram executadas em sequência com as planilhas atuais; a execução terminou sem exceções e confirmou 300/100 linhas e os resultados acima.
-- Nenhum commit, push ou pull request foi feito. Aguardando validação e comando do usuário, conforme o fluxo do projeto.
+Os dois notebooks foram executados de ponta a ponta e salvos com as saídas, e os valores impressos foram conferidos com os textos de interpretação.
 
+### Testes (`tests/`)
 
-## 2026-11-04 ? Coment?rios explicativos no backend do notebook
+- `tests/test_notebook_structure.py`: reescrito para o Notebook 1. Exige os imports do PDF e os comandos literais do PDF (leitura, histograma, boxplot, limites, quantidades, porcentagens, `sm.qqplot`, `norm.cdf`, `norm.ppf`) e os do Projeto 1 (média, mediana, desvio-padrão, quartis). Também confere que não há funções feitas à mão (`def`, `math.erf`, `math.exp`), que só a Planilha 1 é usada, a Questão 1 completa, as interpretações com os valores (78,85% etc.), o README, as dependências em `requirements.txt` e a execução de ponta a ponta.
+- `tests/test_notebook_2_structure.py` (novo): estrutura das Questões 7.1 a 8, imports do PDF, `df=pd.read_excel(arquivo)` com a Planilha 2, Planilha 1 lida só na Questão 8, comandos dos gráficos, média e desvio-padrão, contagem do intervalo, critérios, aviso de causalidade, interpretações e execução de ponta a ponta.
+- `tests/test_backend_comments.py`: checagem dinâmica nos dois notebooks; cada comando de nível superior precisa de um comentário logo acima.
+- Resultado: `python -m unittest tests.test_notebook_structure tests.test_notebook_2_structure tests.test_backend_comments` → 37 testes, todos OK.
 
-- Acrescentados coment?rios em portugu?s ?s etapas de leitura dos dados, aos c?lculos estat?sticos e ?s fun??es auxiliares de distribui??o normal, explicando o que cada comando faz e por que ? usado.
-- Mantidas sem explica??o linha a linha as c?lulas de constru??o de gr?ficos e tabela, conforme solicitado.
-- Adicionado `tests/test_backend_comments.py` para verificar coment?rios nas c?lulas de backend selecionadas.
-- Valida??o: teste de coment?rios, sintaxe das c?lulas e execu??o integral do notebook conclu?dos com sucesso. A su?te estrutural completa ainda aponta verifica??es preexistentes de r?tulos/justificativas textuais que n?o correspondem ao conte?do atual.
+### Documentação, dependências e regras
+
+- `README.md`: seção "Executar os notebooks" com a situação-problema, as referências, a ordem dos notebooks e o comando dos testes.
+- `requirements.txt`: adicionados `numpy`, `scipy` e `statsmodels` (exigidos pelo PDF) e `nbformat` e `nbclient` (testes de execução). `scipy` e `statsmodels` foram instalados no `.venv`.
+- `AGENTS.md` (arquivo local, ignorado pelo git): registrada a exceção aprovada para usar as bibliotecas do PDF nos notebooks da SPRINT1.
