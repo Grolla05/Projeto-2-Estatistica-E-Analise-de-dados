@@ -27,10 +27,14 @@ Abra os notebooks no Jupyter ou no PyCharm com o ambiente configurado acima, nes
 1. `SPRINT1/Notebook_1_Analise_Antes_Intervencao.ipynb` — Planilha 1 (300 observações, antes da intervenção): Questões 1 a 6.
 2. `SPRINT1/Notebook_2_Analise_depois_da_Intervencao.ipynb` — Planilha 2 (100 observações, depois da intervenção): Questões 7.1 a 7.4 e a comparação com a Planilha 1 na Questão 8.
 
+3. `SPRINT2/Notebook_Sprint2_Testes_de_Hipotese.ipynb` — Sprint 2, somente código comentado: correção do intervalo, parâmetros antes × depois (Questão 1), hipóteses e testes z unilaterais da média (Questão 2, H1: μ > 2,51 s) e da proporção no intervalo de 2 a 3 segundos (Questão 3, H1: p < 0,7885), nos níveis de 1% e 5%, com os gráficos das regiões de rejeição e de não rejeição.
+
+O relatório da Sprint 2, com capa, texto estruturado, fórmulas, tabelas, gráficos e conclusões, está em `SPRINT2/Relatorio_Sprint2.docx`, e a versão para entrega no Canvas (PDF) em `SPRINT2/Relatorio_Sprint2.pdf`. A capa segue a da Sprint 1 (Escola Politécnica, Grupo 6 e os quatro integrantes com RA); se ela mudar, exporte o PDF de novo.
+
 Os caminhos das planilhas são relativos aos notebooks e apontam para `Refs/` na raiz do projeto.
 
 ## Testes
 
 ```powershell
-.\.venv\Scripts\python.exe -m unittest tests.test_notebook_structure tests.test_notebook_2_structure tests.test_backend_comments -v
+.\.venv\Scripts\python.exe -m unittest tests.test_notebook_structure tests.test_notebook_2_structure tests.test_sprint2_notebook_structure tests.test_sprint2_relatorio tests.test_sprint2_relatorio_abnt tests.test_backend_comments -v
 ```
