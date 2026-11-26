@@ -14,6 +14,7 @@ ROOT = Path(__file__).resolve().parents[1]
 NOTEBOOK_PATHS = [
     ROOT / "SPRINT1" / "Notebook_1_Analise_Antes_Intervencao.ipynb",
     ROOT / "SPRINT1" / "Notebook_2_Analise_depois_da_Intervencao.ipynb",
+    ROOT / "SPRINT2" / "Notebook_Sprint2_Testes_de_Hipotese.ipynb",
 ]
 
 

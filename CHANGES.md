@@ -1,79 +1,107 @@
-# CHANGES
+# CHANGES — Sprint 2: testes de hipótese (notebook só com código + relatório Word)
 
-## refactor(sprint1): separar notebooks por planilha e usar os comandos do PDF de Distribuição Normal
+## Resumo
 
-### Contexto
+Entrega da Sprint 2 dividida em duas partes:
+- **Notebook** `SPRINT2/Notebook_Sprint2_Testes_de_Hipotese.ipynb`: somente código, com comentários que explicam cada comando e cada fórmula. As células Markdown são apenas títulos curtos.
+- **Relatório Word** `SPRINT2/Relatorio_Sprint2.docx`: todos os textos (situação, pergunta, metodologia, fórmulas, resultados, decisões, conclusões e discussão), em texto estruturado e sem o formato de "respostas às questões", conforme a rubrica.
 
-O notebook `SPRINT1/Notebook_1_Analise_Antes_Intervencao.ipynb` misturava as duas planilhas (Questões 1 a 8) e deixava a Questão 1, a Questão 7.1 e os valores de referência como "provisórios / preencher manualmente". Além disso, os cálculos da distribuição normal eram feitos à mão com `math`, diferente dos comandos do material `SPRINT1/refs/Python - Distribuição Normal-1-1.pdf`. A análise foi dividida por planilha, todos os textos passaram a seguir a situação-problema do grupo e o código passou a usar exatamente os comandos do PDF.
+Resultados: teste da média z = 64,75 (H1: μ > 2,51 s) e teste da proporção no intervalo [2, 3] s z = −19,31 (H1: p < 0,7885). Os valores críticos são ±2,326 (1%) e ±1,645 (5%). H0 é rejeitada nos dois testes e nos dois níveis.
 
-Situação-problema:
+## Avaliação da Sprint 1 e ajustes da Sprint 2 a partir do relatório da Sprint 1
 
-> A empresa de e-commerce adicionou uma etapa extra de validação antifraude nos pagamentos via Pix. Isso deixa o processamento mais lento, e o grupo investiga se o tempo ainda é aceitável.
+- **Novo `SPRINT1/Relatorio_Avaliacao_Rubrica.md`:** avaliação do relatório do Grupo 6 e dos notebooks da Sprint 1 contra as rubricas da Sprint 1 (98/100; código dos notebooks 95/100), com conferência dos números direto das planilhas, riscos e coerência com a Sprint 2. Principal risco: link do Notebook 2 em branco nas Referências do relatório da Sprint 1.
+- **`SPRINT2/Relatorio_Avaliacao_Rubrica.md`:** incluída a atualização da nota da Sprint 2 (97 → 99/100).
+- **Capa da Sprint 2 idêntica à da Sprint 1:** mesmas linhas e mesma posição (conferido página a página no PDF): instituição, Escola Politécnica, disciplina, "PROJETO 2: SPRINT 2", "GRUPO 6", os quatro integrantes no formato "Nome - RA: número" e "Novembro, 2026", tudo em Times New Roman 12 negrito, centralizado, espaçamento simples. A folha de rosto (ABNT) segue em Arial e traz os integrantes, o título, a nota de natureza, os professores, Campinas e a data. O RA de Nicollas Tavares da Silva tem 7 dígitos no original e foi mantido; conferir. O curso não consta na capa da Sprint 1 e ficou de fora.
+- **Citações e referências da Sprint 2:** passaram a seguir a convenção da Sprint 1 (autoria institucional PUC-Campinas) em vez de "MONTEIRO et al.", com o relatório do Grupo 6 como terceira referência: (GRUPO 6, 2026) e (PONTIFÍCIA UNIVERSIDADE CATÓLICA DE CAMPINAS, 2026a/2026b).
+- **Testes:** `test_sprint2_relatorio.py` (capa com Escola Politécnica, Grupo 6 e os RAs) e `test_sprint2_relatorio_abnt.py` (capa idêntica à da Sprint 1, folha de rosto, citações e 3 referências em ordem alfabética) atualizados; 82 testes passam.
 
-Valores de referência adotados (decisão do grupo, com base no comportamento da Planilha 1):
+## Relatório no padrão ABNT (NBR 14724, 6024, 6028, 6023, 10520)
 
-- **Faixa ideal:** 2 a 3 segundos (onde se concentra a maior parte das transações antes da intervenção; percepção de pagamento instantâneo).
-- **Limite tolerável:** até 6 segundos (dobro do teto da faixa ideal).
+O `SPRINT2/Relatorio_Sprint2.docx` foi reconstruído (e o `Relatorio_Sprint2.pdf` reexportado pelo Word, 22 páginas) seguindo a ABNT. O conteúdo técnico e os números não mudaram.
 
-### Comandos iguais ao PDF "Python - Distribuição Normal" (nos dois notebooks)
+- **Página:** A4, margens superior e esquerda 3 cm, inferior e direita 2 cm.
+- **Fonte e espaçamento:** Arial 12 em todo o texto; corpo justificado, espaçamento 1,5, recuo de 1,25 cm na primeira linha; legendas, fontes, tabelas e referências em Arial 10 com espaçamento simples; nenhum texto acima de 12 pt.
+- **Numeração de página:** só na parte textual, canto superior direito, a 2 cm da borda superior; a contagem começa na folha de rosto (a capa não conta).
+- **Elementos pré-textuais:** capa, folha de rosto (com nota de natureza do trabalho e professores), resumo com palavras-chave, lista de figuras, lista de tabelas e sumário, os três últimos como campos do Word (atualizados antes de salvar).
+- **Seções (NBR 6024):** numeração arábica progressiva; seção primária em MAIÚSCULAS e negrito, começando em página nova; secundária em MAIÚSCULAS sem negrito; terciária em negrito.
+- **Ilustrações e tabelas:** legenda acima ("Figura 1 – …", "Tabela 1 – …", numeração por campo SEQ) e "Fonte:" abaixo; tabelas no modelo IBGE (sem linhas laterais nem verticais); texto alternativo nas figuras.
+- **Equações:** centralizadas e numeradas à direita, (1) a (16), com referência no texto.
+- **Citações e referências:** citação autor-data (MONTEIRO et al., 2026a e 2026b) e lista de REFERÊNCIAS (as duas orientações das Sprints).
+- **Contexto da Sprint 1:** nova seção 1.2 resume a etapa anterior (média 2,51 s e desvio 0,40 s, normalidade, p = 78,85%, 2,17 s e 2,72 s, Planilha 2 com média 5,10 s e 85/100 em até 6 s, critérios de 89% → 0% e 100% → 85% e a conclusão preliminar), tirada dos dois notebooks da Sprint 1.
+- **Capa:** Escola Politécnica, Grupo 6 e os quatro integrantes com RA, conforme o relatório da Sprint 1 (instituição e disciplina também conferidas no Obsidian).
+- **Testes:** novo `tests/test_sprint2_relatorio_abnt.py` (17 testes: margens, fonte, espaçamento, estilos, ordem dos elementos, legendas, tabelas, equações, citações, referências, contexto da Sprint 1 e ausência de placeholders sem destaque). Os testes consultam os estilos pelo nome, porque o Word regrava os identificadores ao salvar.
+- **Geração:** o `.docx` foi gerado por script (biblioteca padrão do Python) fora do repositório e depois atualizado e salvo pelo Word.
 
-| Etapa do PDF | Comando usado |
-|---|---|
-| 1. Importar as bibliotecas | `import pandas as pd`, `import numpy as np`, `import math`, `import seaborn as sns`, `import matplotlib.pyplot as plt`, `import statsmodels.api as sm`, `from scipy.stats import norm`, `import pylab` |
-| 2. Variáveis | `arquivo = "..."`, `coluna = "Tempo_processamento_seg"` |
-| 3. Armazenamento | `df=pd.read_excel(arquivo)` e `df` |
-| 4.1 Histograma | `sns.histplot(data=df[coluna],kde=True)` e `plt.show()` |
-| 4.2 Boxplot | `sns.boxplot(data=df[coluna])` e `plt.show()` |
-| 5. Média, mediana e desvio-padrão (padrão do Projeto 1) | `media = round(df[coluna].mean(), 2)`, `mediana = round(df[coluna].median(), 2)`, `dpad = round(df[coluna].std(), 2)` |
-| 6.1 Limites | `limite_inf1dp=round(media-dpad,2)` … `limite_sup3dp=round(media+3*dpad,2)` |
-| 6.1 Quantidades | `quantidade_1dp=sum(i>=limite_inf1dp and i<= limite_sup1dp for i in df[coluna].sort_values())` (e 2dp, 3dp) |
-| 6.1 Porcentagens | `porcentagem1 = round((quantidade_1dp/len(df[coluna]))*100,2)` (e 2, 3) |
-| 6.2 Quartis (padrão do Projeto 1) | `Q1 = df[coluna].quantile(q=0.25)`, `Q2 = ...(q=0.50)`, `Q3 = ...(q=0.75)` |
-| 6.3 Gráfico Q-Q | `sm.qqplot(df[coluna], line = 'r')` e `pylab.show()` |
-| 7. Probabilidade (Q5) | `norm.cdf(3,loc=media,scale=dpad).round(4)-norm.cdf(2,loc=media,scale=dpad).round(4)` |
-| Quantis (Q6) | `norm.ppf(0.20,loc=media,scale=dpad).round(2)` e `norm.ppf(0.70,loc=media,scale=dpad).round(2)` |
+## Correções após a avaliação contra a rubrica (`SPRINT2/Relatorio_Avaliacao_Rubrica.md`)
 
-- Removidos os cálculos feitos à mão: as funções `cdf_normal_padrao` (com `math.erf`) e `quantil_normal_padrao` (bissecção), o Q-Q montado manualmente e a curva normal desenhada com `math.exp` sobre o histograma.
-- Mantidos, por exigência da rubrica, `plt.title`, `plt.xlabel` e `plt.ylabel` entre o comando do gráfico e o `plt.show()`, identificando variável, unidade e título.
-- Como no PDF, média e desvio-padrão entram arredondados em 2 casas em `loc` e `scale`. Por isso a probabilidade da Q5 passou de 78,81% para **78,85%**; os quantis da Q6 continuam 2,17 s e 2,72 s.
-- A regra empírica agora aparece como 68%-95%-99% no código e no texto, como nas orientações da Sprint (antes o print dizia 99,7% e o texto 99%).
+- **z calculado visível nos gráficos (Questões 2b e 3b).** Cada um dos 4 gráficos agora é uma figura com 2 painéis (`plt.subplots(1, 2, ...)`): à esquerda a curva normal padrão de −4 a 4 com as regiões; à direita uma escala ampliada (`set_xlim`, `axvspan`) com a linha azul no z calculado (`axvline(z_media...)` / `axvline(z_prop...)`). O valor do z crítico passou para a legenda (a legenda fica abaixo dos painéis, sem cobrir a curva).
+- **Relatório:** as 4 imagens foram trocadas pelas novas figuras (largura do texto, proporção mantida), as legendas das Figuras 1–4 e as frases das seções 5.3 e 6.3 citam a escala ampliada, e as conclusões por nível dizem onde o z calculado aparece.
+- **PDF mantido como formato de entrega:** `SPRINT2/Relatorio_Sprint2.pdf`, exportado pelo Word (12 páginas) a partir do `.docx`. Precisa ser exportado de novo depois que a capa for preenchida.
+- **Testes:** `test_sprint2_notebook_structure.py` ganhou `test_graphs_mark_the_calculated_z_on_a_full_scale_panel`; `test_sprint2_relatorio.py` ganhou testes das figuras largas, da menção à escala ampliada e da existência do PDF.
+- **Ainda pendente:** conferir o RA de Nicollas Tavares da Silva (7 dígitos) e decidir se a capa deve trazer o curso.
 
-### Notebook 1 — `SPRINT1/Notebook_1_Analise_Antes_Intervencao.ipynb` (reescrito)
+## Arquivos
 
-- Contém **somente** a Planilha 1 (300 observações), na variável `df`, e as Questões 1 a 6.
-- Removidos: a Planilha 2 e todas as seções das Questões 7.1 a 8.
-- **Questão 1:** texto completo, com os cinco itens da rubrica rotulados (contexto, problema, possível causa, importância da variável e valores de referência com justificativa).
-- **Questão 2:** histograma e boxplot com título, variável e unidade (segundos).
-- **Questão 3:** média 2,51 s, mediana 2,51 s e desvio-padrão 0,40 s.
-- **Questão 4:** itens 6.1, 6.2 e 6.3 do PDF, cada um com uma conclusão, mais uma "Conclusão geral" que justifica o uso da distribuição normal.
-- **Questão 5:** P(2 ≤ x ≤ 3) = 78,85%, com justificativa do intervalo (faixa ideal) e contextualização.
-- **Questão 6:** 2,17 s (máximo dos 20% menores) e 2,72 s (mínimo dos 30% maiores), contextualizados.
-- Célula final "Síntese da Planilha 1", que liga os resultados ao Notebook 2.
+### Novo: `SPRINT2/Notebook_Sprint2_Testes_de_Hipotese.ipynb`
+Notebook executado (com saídas), 38 células.
+- **Imports:** `pandas`, `numpy`, `math`, `seaborn`, `matplotlib.pyplot`, `from scipy.stats import norm` (numpy e scipy aprovados pelo usuário). Cada import tem um comentário dizendo para que serve (cdf, ppf, pdf etc.).
+- **Introdução (código):** conta a Planilha 2 em [0, 6] s (85/100, o intervalo usado na Sprint 1) e em [2, 3] s (0/100, o intervalo corrigido, igual ao da Q5).
+- **Questão 1 (código):** `media_pop` = 2,51, `dpad_pop` = 0,40, `p_pop` = 0,7885 (mesmo comando `norm.cdf` da Sprint 1), `media_amostra` = 5,10, `dpad_amostra` = 0,81, `n` = 100, `p_chapeu` = 0. Inclui tabela comparativa.
+- **Questão 2a / 3a (código):** `mu_0 = media_pop` e `p_0 = p_pop`, com print de H0 e H1.
+- **Questão 2b:** erro-padrão `dpad_pop/math.sqrt(n)` e `z_media`. Por nível: `norm.ppf(1-alfa)`, regiões, decisão por `if` e um gráfico (curva normal padrão, regiões verde/vermelha, linha no z crítico, seta para o z calculado fora da escala).
+- **Questão 2c (código):** compara o indício da Q1 com a decisão do teste e imprime "As conclusões coincidem". Calcula também z com o desvio-padrão da amostra (31,98) como verificação de sensibilidade.
+- **Questão 3b:** condições n·p0 ≥ 5 e n(1−p0) ≥ 5, erro-padrão `math.sqrt(p_0*(1-p_0)/n)`, `z_prop`, `norm.ppf(alfa)` e 2 gráficos.
+- **Questão 3c (código):** compara com a Q1 e mostra o contexto dos 85/100 dentro de 6 s.
+- **Síntese:** tabela com o teste, o nível, z calculado, z crítico e a decisão.
 
-### Notebook 2 — `SPRINT1/Notebook_2_Analise_depois_da_Intervencao.ipynb` (novo)
+### Novo: `SPRINT2/Relatorio_Sprint2.docx` (12 páginas, A4)
+- **Capa (versão inicial, já substituída pela capa do Grupo 6 descrita acima):** instituição, título, integrantes (Nome — RA), professores e "Campinas, novembro de 2026".
+- **Seções:**
+  1. Introdução (situação, problema, intervenção, objetivo)
+  2. Pergunta de investigação (por que a pergunta da Sprint 1 não é testável, nova pergunta e correção do intervalo [0, 6] → [2, 3])
+  3. Dados e metodologia (população × amostra, fórmulas de média, desvio, p, p̂, z da média com σ/√n, z da proporção com √(p₀(1 − p₀)/n), valores críticos e ferramentas Python)
+  4. Resultados antes e depois (Tabela 1 e análise preliminar)
+  5. Teste da média (hipóteses, cálculo, Tabela 2, Figuras 1–2 e conclusão por nível)
+  6. Teste da proporção (hipóteses, condições, cálculo, Tabela 3, Figuras 3–4 e conclusão por nível)
+  7. Comparação com a análise preliminar (as conclusões coincidem; robustez, premissas, significância estatística × prática, contexto do limite de 6 s)
+  8. Conclusão
+- Os gráficos são os mesmos gerados pelo notebook.
+- O documento foi gerado com docx-js e conferido visualmente após exportação para PDF pelo Word.
 
-- Mesmos imports e o mesmo padrão `arquivo` / `coluna` / `df=pd.read_excel(arquivo)`, agora com a Planilha 2 (100 observações).
-- **Questão 7.1:** Situação (reforço contra fraudes com risco de lentidão), Ação (etapa extra de validação antifraude) e Objetivo (manter o tempo em até 6 s), com pergunta de decisão.
-- **Questão 7.2:** histograma (`sns.histplot(data=df[coluna],kde=True)`) e boxplot com título e unidade, mais uma interpretação.
-- **Questão 7.3:** média 5,10 s, mediana 5,12 s e desvio-padrão 0,81 s, mais uma interpretação comparando com a Planilha 1.
-- **Questão 7.4:** intervalo de 0 a 6 s; a contagem usa o mesmo padrão `sum(i>=... and i<= ...)` do PDF: 85 de 100 (e 0 de 100 na faixa ideal).
-- **Questão 8:** pergunta e dois critérios:
-  - Critério 1: até 3 s (ideal): 89% → 0%.
-  - Critério 2: até 6 s (tolerável): 100% → 85%.
-  - Tabela comparativa, boxplot lado a lado com as linhas de 3 s e 6 s e diferença entre as médias (+2,59 s), com aviso único de que a comparação não comprova causalidade.
-  - A Planilha 1 é lida em `df_antes` apenas nesta seção.
+### Novo: `tests/test_sprint2_notebook_structure.py`
+- Ordem das seções, cada uma seguida de código.
+- Markdown só com títulos curtos (≤ 400 caracteres, sem "Interpretação breve") e cabeçalho apontando para o relatório.
+- Imports e caminhos das planilhas; correção do intervalo em código.
+- Comandos dos parâmetros iguais aos da Sprint 1; hipóteses em código (`mu_0`, `p_0`).
+- Fórmulas dos erros-padrão, `norm.ppf` e alfas.
+- Exatamente 2 gráficos por teste.
+- Comparação com a Q1 calculada em código; comentários explicando as fórmulas.
+- Execução completa via `nbclient` (≥ 4 imagens, saídas com 64.75, −19.31, 2.326, 1.645 e "coincide").
 
-Os dois notebooks foram executados de ponta a ponta e salvos com as saídas, e os valores impressos foram conferidos com os textos de interpretação.
+### Novo: `tests/test_sprint2_relatorio.py`
+Lê o `word/document.xml` do .docx e verifica:
+- itens da capa;
+- ausência do formato "Questão";
+- situação, problema, objetivo, intervenção, população e amostra, com os valores;
+- pergunta reformulada e correção do intervalo;
+- fórmulas (σ/√n, √(p₀(1 − p₀)/n), H₀/H₁);
+- z calculados, z críticos e "rejeita", com ≥ 4 menções a "região de rejeição";
+- comparação com a análise preliminar ("coincide");
+- ≥ 4 imagens embutidas.
 
-### Testes (`tests/`)
+### Editado: `tests/test_backend_comments.py`
+Incluído o notebook da Sprint 2 na verificação de "comentário antes de cada comando".
 
-- `tests/test_notebook_structure.py`: reescrito para o Notebook 1. Exige os imports do PDF e os comandos literais do PDF (leitura, histograma, boxplot, limites, quantidades, porcentagens, `sm.qqplot`, `norm.cdf`, `norm.ppf`) e os do Projeto 1 (média, mediana, desvio-padrão, quartis). Também confere que não há funções feitas à mão (`def`, `math.erf`, `math.exp`), que só a Planilha 1 é usada, a Questão 1 completa, as interpretações com os valores (78,85% etc.), o README, as dependências em `requirements.txt` e a execução de ponta a ponta.
-- `tests/test_notebook_2_structure.py` (novo): estrutura das Questões 7.1 a 8, imports do PDF, `df=pd.read_excel(arquivo)` com a Planilha 2, Planilha 1 lida só na Questão 8, comandos dos gráficos, média e desvio-padrão, contagem do intervalo, critérios, aviso de causalidade, interpretações e execução de ponta a ponta.
-- `tests/test_backend_comments.py`: checagem dinâmica nos dois notebooks; cada comando de nível superior precisa de um comentário logo acima.
-- Resultado: `python -m unittest tests.test_notebook_structure tests.test_notebook_2_structure tests.test_backend_comments` → 37 testes, todos OK.
+### Editado: `README.md`
+Incluídos o notebook e o relatório da Sprint 2, o PDF de entrega e os novos módulos no comando de testes.
 
-### Documentação, dependências e regras
+## Verificação
+```powershell
+.\.venv\Scripts\python.exe -m unittest tests.test_sprint2_notebook_structure tests.test_sprint2_relatorio tests.test_sprint2_relatorio_abnt tests.test_backend_comments tests.test_notebook_structure tests.test_notebook_2_structure
+```
+Resultado: 60 testes, OK.
 
-- `README.md`: seção "Executar os notebooks" com a situação-problema, as referências, a ordem dos notebooks e o comando dos testes.
-- `requirements.txt`: adicionados `numpy`, `scipy` e `statsmodels` (exigidos pelo PDF) e `nbformat` e `nbclient` (testes de execução). `scipy` e `statsmodels` foram instalados no `.venv`.
-- `AGENTS.md` (arquivo local, ignorado pelo git): registrada a exceção aprovada para usar as bibliotecas do PDF nos notebooks da SPRINT1.
+## Pendências do grupo
+- Conferir o RA de Nicollas Tavares da Silva (7 dígitos) e decidir se a capa deve trazer o curso; se mudar a capa, exportar o PDF de novo.
+- Entregar `SPRINT2/Relatorio_Sprint2.pdf` e o notebook no Canvas.
